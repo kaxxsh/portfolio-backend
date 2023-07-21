@@ -3,11 +3,12 @@ import dbConnection from "./db/dbConnection.js";
 import {} from "dotenv/config.js";
 import errorHandler from "./Middleware/error-handler.js";
 import cors from "cors";
+import authrouter from "./router/authrouter.js";
 
 const app = Express();
 app.use(cors());
-
 app.use(Express.json());
+app.use("/api/v1/auth", authrouter)
 app.use(errorHandler);
 
 const connection = () => {
