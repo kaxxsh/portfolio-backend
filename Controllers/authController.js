@@ -1,5 +1,7 @@
 import authSchema from "../model/authSchema.js";
-import { badRequest, SuccessRequest } from "../error/index.js";
+import { badRequest } from "../error/index.js";
+import { StatusCodes } from "http-status-codes";
+import { comparePassword } from "../utils/index.js";
 
 const authSignup = async (req, res, next) => {
   try {
@@ -7,7 +9,7 @@ const authSignup = async (req, res, next) => {
       throw new badRequest("Email and Password is required");
     }
     await authSchema.create(req.body);
-    throw new SuccessRequest("User Created");
+    res.status(StatusCodes.CREATED).json({ message: "User Created" });
   } catch (error) {
     next(error);
   }
@@ -21,7 +23,11 @@ const authlogin = async (req, res, next) => {
     if (!User) {
       throw new badRequest("User not found");
     }
-    throw new SuccessRequest("User found");
+    const isMatch = await comparePassword(req.body.password, User.password);
+    if (!isMatch) {
+      throw new badRequest("Password is not correct");
+    }
+    res.status(StatusCodes.OK).json({ message: "User Found" });
   } catch (error) {
     next(error);
   }
