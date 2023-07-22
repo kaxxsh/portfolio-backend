@@ -1,5 +1,5 @@
 import express from "express";
-
+import verifyUser from "../Middleware/Verify-User.js";
 import {
   getallUserDetail,
   getUserDetail,
@@ -11,6 +11,8 @@ const UserDetailRouter = express.Router();
 
 UserDetailRouter.route("/").get(getallUserDetail).post(addUserDetail);
 
-UserDetailRouter.route("/:id").get(getUserDetail).patch(updateUserDetail);
+UserDetailRouter.route("/:id")
+  .get(verifyUser, getUserDetail)
+  .patch(verifyUser, updateUserDetail);
 
 export default UserDetailRouter;
