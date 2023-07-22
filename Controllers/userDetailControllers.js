@@ -1,6 +1,8 @@
 import UserDetails from "../model/UserDetailSchema.js";
 import { badRequest } from "../error/index.js";
 import { StatusCodes } from "http-status-codes";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 const getallUserDetail = async (req, res, next) => {
   try {
@@ -24,8 +26,15 @@ const getUserDetail = async (req, res, next) => {
 };
 
 const addUserDetail = async (req, res, next) => {
+  if (req.files) {
+    var src = await cloudinary.uploader.upload(req.files.image.tempFilePath, {
+      folder: "userimage",
+    });
+    fs.unlinkSync(req.files.image.tempFilePath);
+  }
   try {
     req.body.user = req.user.payload;
+    req.body.photo = src.secure_url;
     const userDetail = await UserDetails.create(req.body);
     res.status(StatusCodes.OK).json(userDetail);
   } catch (error) {
@@ -49,4 +58,11 @@ const updateUserDetail = async (req, res, next) => {
   }
 };
 
-export { getallUserDetail, getUserDetail, addUserDetail, updateUserDetail };
+
+export {
+  getallUserDetail,
+  getUserDetail,
+  addUserDetail,
+  updateUserDetail,
+
+};
