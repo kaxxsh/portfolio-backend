@@ -1,0 +1,34 @@
+{
+  "name": "Shanu S",
+  "designation": "Full Stack Web Developer",
+  "description": "Passionate information technology student, Seeking to use my existing skills and my eagerness to learn in to design innovative, cost-effective software solutions. Prolific, designer and full stack web developer with a passion for design and performance.",
+  "address": "C-15 1E, VGN Brixton, Kancheepuram, 602117, India",
+  "phone": "+91 6379436479",
+  "email": "shanuflash@gmail.com",
+  "dob": "14/04/2003",
+  "socials": {
+    "linkedin": "shanuflash",
+    "github": "shanuflash"
+  },
+  "education": [
+    {
+      "name": "education name",
+      "description": "year and grades"
+    }
+  ],
+  "skills": [],
+  "experience": [
+    {
+      "name": "experience name",
+      "description": "description"
+    }
+  ],
+  "projects": [
+    {
+      "name": "test project",
+      "description": "project description 123",
+      "link": "project link"
+    }
+  ],
+  "photo": "https://jvnstfpaokvohgpmuewa.supabase.co/storage/v1/object/public/images/d191a72b-de28-4bad-90d8-9dc2eb0fd0a4.png"
+}

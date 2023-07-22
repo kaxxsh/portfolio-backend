@@ -4,11 +4,16 @@ import {} from "dotenv/config.js";
 import errorHandler from "./Middleware/error-handler.js";
 import cors from "cors";
 import authrouter from "./router/authrouter.js";
+import cookieParser from "cookie-parser";
+import UserDetailRouter from "./router/UserDetailrouter.js";
+import authVerify from "./Middleware/auth-verify.js";
 
 const app = Express();
 app.use(cors());
 app.use(Express.json());
-app.use("/api/v1/auth", authrouter)
+app.use(cookieParser());
+app.use("/api/v1/auth", authrouter);
+app.use("/api/v1/user", authVerify, UserDetailRouter);
 app.use(errorHandler);
 
 const connection = () => {

@@ -27,8 +27,8 @@ const authlogin = async (req, res, next) => {
     if (!isMatch) {
       throw new badRequest("Password is not correct");
     }
-    const token = jwtGenrator(User._id);
-    res.cookie("token", token, { httpOnly: true });
+    const token = jwtGenrator({payload:User._id});
+    res.cookie("token", token, { httpOnly: true }, { maxAge: 1000 * 60 * 60 * 24 });
     res.status(StatusCodes.OK).json({ message: "User Found" });
   } catch (error) {
     next(error);
