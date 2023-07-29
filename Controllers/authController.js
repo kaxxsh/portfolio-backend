@@ -1,14 +1,16 @@
 import authSchema from "../model/authSchema.js";
 import { badRequest } from "../error/index.js";
 import { StatusCodes } from "http-status-codes";
-import { comparePassword,jwtGenrator } from "../utils/index.js";
+import { comparePassword, jwtGenrator } from "../utils/index.js";
 
 const authSignup = async (req, res, next) => {
   try {
-    if (!req.body.email || !req.body.password) {
-      throw new badRequest("Email and Password is required");
+    for (let i in req.body) {
+      if (!req.body[i].email || !req.body[i].password) {
+        throw new badRequest("Email and Password is required");
+      }
+      await authSchema.create(req.body[i]);
     }
-    await authSchema.create(req.body);
     res.status(StatusCodes.CREATED).json({ message: "User Created" });
   } catch (error) {
     next(error);
@@ -27,8 +29,13 @@ const authlogin = async (req, res, next) => {
     if (!isMatch) {
       throw new badRequest("Password is not correct");
     }
-    const token = jwtGenrator({payload:User._id});
-    res.cookie("token", token, { httpOnly: true }, { maxAge: 1000 * 60 * 60 * 24 });
+    const token = jwtGenrator({ payload: User._id });
+    res.cookie(
+      "token",
+      token,
+      { httpOnly: true },
+      { maxAge: 1000 * 60 * 60 * 24 }
+    );
     res.status(StatusCodes.OK).json({ message: "User Found" });
   } catch (error) {
     next(error);
